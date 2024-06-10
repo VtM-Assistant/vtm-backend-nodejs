@@ -32,10 +32,6 @@ export class CaslAbilityFactory {
         detectSubjectType: (item) =>
           item.constructor as ExtractSubjectType<Subjects>,
       },
-      //     {
-      //     detectSubjectType: (item) =>
-      //         item.__typename,
-      // }
     );
   }
 }
