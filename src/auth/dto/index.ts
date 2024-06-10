@@ -1,1 +1,1 @@
-export {LoginData} from './login-data/login-data';
+export {LoginDataDto} from './login-data/login-data-dto';

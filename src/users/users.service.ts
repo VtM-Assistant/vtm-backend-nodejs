@@ -1,21 +1,32 @@
 import { Injectable } from '@nestjs/common';
+import { User } from './dto';
+import { Role } from 'src/roles/role.enum';
 
 
-export type User = any;
+// export type User = any;
 
 
 @Injectable()
 export class UsersService {
-    private readonly users = [
+    // TODO: Move Users to DB
+    private readonly users: User[] = [
         {
-            userId: 1,
-            username: 'john',
-            password: 'changeme'
+            id: 1,
+            username: 'admin',
+            password: 'admin',
+            role: Role.Admin
         },
         {
-            userId: 2,
-            username: 'maria',
-            password: "guess",
+            id: 2,
+            username: '2',
+            password: "2",
+            role: Role.User
+        },
+        {
+            id: 3,
+            username: '3',
+            password: '3',
+            role: Role.User,
         }
     ];
 
