@@ -8,11 +8,7 @@ import { Action, CaslAbilityFactory } from 'src/common/factories';
 export class CharactersService {
   constructor(private caslAbilityFactory: CaslAbilityFactory) {
     // TODO: Move characters to DB
-    this.characters = [
-      new Character(),
-      new Character(),
-      new Character(),
-    ];
+    this.characters = [new Character(), new Character(), new Character()];
 
     this.characters[0].id = 1;
     this.characters[0].name = '1';
@@ -58,15 +54,8 @@ export class CharactersService {
 
     const ability = this.caslAbilityFactory.createForUser(user);
 
-    try {
-      ForbiddenError.from(ability).throwUnlessCan(Action.Read, character);
+    ForbiddenError.from(ability).throwUnlessCan(Action.Read, character);
 
-      return character;
-    } catch (error) {
-      console.log(error);
-      if (error instanceof ForbiddenError) {
-        throw new ForbiddenException(error.message);
-      }
-    }
+    return character;
   }
 }
