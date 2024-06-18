@@ -1,1 +1,2 @@
-export {LoginDataDto} from './login-data/login-data-dto';
+export * from './login-data.dto';
+export * from './register-data.dto';

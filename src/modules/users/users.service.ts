@@ -1,33 +1,21 @@
 import { Injectable } from '@nestjs/common';
+import { DynamoRepository } from 'src/common/repositories';
 import { User, Role } from 'src/entities';
 
 // export type User = any;
 
 @Injectable()
 export class UsersService {
-  // TODO: Move Users to DB
-  private readonly users: User[] = [
-    {
-      id: 1,
-      username: 'admin',
-      password: 'admin',
-      role: Role.Admin,
-    },
-    {
-      id: 2,
-      username: '2',
-      password: '2',
-      role: Role.User,
-    },
-    {
-      id: 3,
-      username: '3',
-      password: '3',
-      role: Role.User,
-    },
-  ];
+  constructor(private dynamoRepository: DynamoRepository) {}
 
   async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+    const users = await this.dynamoRepository.findAllUsers();
+
+    return users.find((user) => user.username === username);
   }
+
+  async createOne(user: User) {
+    await this.dynamoRepository.createUser(user);
+  }
+
 }

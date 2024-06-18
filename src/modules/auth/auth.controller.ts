@@ -8,7 +8,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { LoginDataDto } from './dto';
+import { LoginDataDto, RegisterDataDto } from './dto';
 import { AuthService } from './auth.service';
 import { Public } from 'src/common/decorators';
 import { AuthGuard } from 'src/common/guards';
@@ -20,18 +20,18 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: LoginDataDto) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+  signIn(@Body() loginData: LoginDataDto) {
+    return this.authService.signIn(loginData.username, loginData.password);
   }
 
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('register')
-  register() {
-    // TODO: Create new user
-    return {
-      message: 'ASD',
-    };
+  singUp(@Body() registerData: RegisterDataDto) {
+    return this.authService.signUp(
+      registerData.username,
+      registerData.password,
+    );
   }
 
   @UseGuards(AuthGuard)
