@@ -1,35 +1,51 @@
 import { hash } from 'src/utils/crypto.functions';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
+import {
+  AUTO_GENERATE_ATTRIBUTE_STRATEGY,
+  Attribute,
+  AutoGenerateAttribute,
+  Entity,
+} from '@typedorm/common';
 
 import { RegisterDataDto } from 'src/modules/auth';
 import { Role } from '.';
 
+@Entity({
+  name: 'user',
+  primaryKey: {
+    partitionKey: 'USER#{{id}}',
+    sortKey: 'PROFILE',
+  },
+})
 export class User {
+  @AutoGenerateAttribute({
+    strategy: AUTO_GENERATE_ATTRIBUTE_STRATEGY.UUID4,
+  })
   id: string;
+
+  @Attribute()
   username: string;
+
+  @Attribute()
   password: string;
-  createdAt: Date;
 
+  @AutoGenerateAttribute({
+    strategy: AUTO_GENERATE_ATTRIBUTE_STRATEGY.EPOCH_DATE,
+  })
+  createdAt: number;
+
+  @Attribute({
+    isEnum: true,
+  })
   role: Role;
-
-  static fromDynamoDBObject(data: any): User {
-    const result = new User();
-    result.id = data.id.S;
-    result.username = data.username.S;
-    result.password = data.password.S;
-    result.role = Role[data.role.S as keyof typeof Role];
-
-    result.createdAt = new Date(Number(data.createdAt.N));
-    return result;
-  }
 
   static create(username: string, password: string): User {
     const result = new User();
 
-    result.id = uuidv4();
+    // result.id = uuidv4();
     result.username = username;
     result.password = hash(password);
-    result.createdAt = new Date();
+    // result.createdAt = new Date();
     result.role = Role.User;
 
     return result;

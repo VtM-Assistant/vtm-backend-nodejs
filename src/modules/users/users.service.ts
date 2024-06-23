@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DynamoRepository } from 'src/common/repositories';
-import { User, Role } from 'src/entities';
-
-// export type User = any;
+import { User } from 'src/entities';
 
 @Injectable()
 export class UsersService {
@@ -17,5 +15,4 @@ export class UsersService {
   async createOne(user: User) {
     await this.dynamoRepository.createUser(user);
   }
-
 }

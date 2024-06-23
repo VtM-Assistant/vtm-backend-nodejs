@@ -49,7 +49,6 @@ export class AuthService {
     const newUser = User.create(username, password);
 
     await this.usersService.createOne(newUser);
-
   }
 
   private isValidPassword(password: string): boolean | string {

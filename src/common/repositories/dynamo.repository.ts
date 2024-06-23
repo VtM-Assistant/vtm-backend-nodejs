@@ -1,71 +1,52 @@
-import {
-  AttributeValue,
-  DynamoDBClient,
-  PutItemCommand,
-  ScanCommand,
-} from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { Injectable } from '@nestjs/common';
+import { Table } from '@typedorm/common';
+import {
+  EntityManager,
+  ScanManager,
+  createConnection,
+  getEntityManager,
+  getScanManager,
+} from '@typedorm/core';
+import { DocumentClientV3 } from '@typedorm/document-client';
 import { User } from 'src/entities';
+
+const myGlobalTable = new Table({
+  name: 'vtmr-assistant',
+  partitionKey: 'PK',
+  sortKey: 'SK',
+});
 
 @Injectable()
 export class DynamoRepository {
-  private readonly tableName = 'vtmr-assistant';
-  private readonly client: DynamoDBClient;
+  private readonly enitityManager: EntityManager;
+  private readonly scanManager: ScanManager;
 
   constructor() {
-    this.client = new DynamoDBClient({
-      region: 'eu-central-1',
+    //
+    const documentClient = new DocumentClientV3(
+      new DynamoDBClient({
+        region: 'eu-central-1',
+      }),
+    );
+
+    createConnection({
+      table: myGlobalTable,
+      entities: [User],
+      documentClient,
     });
+
+    this.enitityManager = getEntityManager();
+    this.scanManager = getScanManager();
   }
 
   async findAllUsers() {
-    const result: User[] = [];
-    const command = new ScanCommand({
-      TableName: this.tableName,
-    });
+    const result = await this.scanManager.find(User);
 
-    const response = await this.client.send(command);
-
-    if (response.Items) {
-      response.Items.forEach((item) => {
-        result.push(User.fromDynamoDBObject(item));
-      });
-    }
-
-    return result;
+    return result.items;
   }
 
-  async createUser(data: User) {
-    const itemObject: Record<string, AttributeValue> = {
-      PK: {
-        S: `USER#${data.id}`,
-      },
-      SK: {
-        S: 'PROFILE',
-      },
-      id: {
-        S: data.id,
-      },
-      username: {
-        S: data.username,
-      },
-      password: {
-        S: data.password,
-      },
-      createdAt: {
-        S: String(data.createdAt.getTime()),
-      },
-      role: {
-        S: data.role.toString(),
-      },
-    };
-
-    const command = new PutItemCommand({
-      TableName: this.tableName,
-
-      Item: itemObject,
-    });
-
-    await this.client.send(command);
+  async createUser(user: User) {
+    return this.enitityManager.create(user);
   }
 }
