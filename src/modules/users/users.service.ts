@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { DynamoRepository } from 'src/common/repositories';
 import { User } from 'src/entities';
+import { DynamoRepository } from '../dynamo';
 
 @Injectable()
 export class UsersService {

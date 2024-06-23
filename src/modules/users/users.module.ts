@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { DynamoRepository } from 'src/common/repositories';
+import { DynamoModule } from '../dynamo';
 
 @Module({
-  providers: [UsersService, DynamoRepository],
+  imports: [DynamoModule],
+  providers: [UsersService],
   exports: [UsersService],
 })
 export class UsersModule {}

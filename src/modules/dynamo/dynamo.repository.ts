@@ -1,5 +1,5 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Scope } from '@nestjs/common';
 import { Table } from '@typedorm/common';
 import {
   EntityManager,
@@ -23,7 +23,6 @@ export class DynamoRepository {
   private readonly scanManager: ScanManager;
 
   constructor() {
-    //
     const documentClient = new DocumentClientV3(
       new DynamoDBClient({
         region: 'eu-central-1',
@@ -40,13 +39,23 @@ export class DynamoRepository {
     this.scanManager = getScanManager();
   }
 
-  async findAllUsers() {
+  async findAllUsers(): Promise<User[]> {
     const result = await this.scanManager.find(User);
 
     return result.items;
   }
 
-  async createUser(user: User) {
+  async createUser(user: User): Promise<undefined> {
     return this.enitityManager.create(user);
+  }
+
+  async findUserById(id: string): Promise<User | undefined> {
+    return this.enitityManager.findOne(User, { id });
+  }
+
+  async findUserByName(username: string): Promise<User | undefined> {
+    // TODO: Rework with GSI
+    const users = await this.scanManager.find(User);
+    return users.items.find((user) => user.username === username);
   }
 }

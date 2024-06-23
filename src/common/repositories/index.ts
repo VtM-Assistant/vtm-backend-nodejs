@@ -1,1 +1,1 @@
-export * from './dynamo.repository';
+// export * from './dynamo.repository';

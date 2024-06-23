@@ -4,13 +4,14 @@ import { UsersModule } from 'src/modules/users/users.module';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { DynamoModule } from '../dynamo';
 
 @Module({
   imports: [
+    DynamoModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    UsersModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

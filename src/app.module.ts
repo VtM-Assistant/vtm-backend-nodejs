@@ -1,15 +1,24 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
-import { AuthModule } from './modules/auth';
-import { UsersModule } from './modules/users';
-import { ClansModule } from './modules/clans';
+import {
+  AuthModule,
+  UsersModule,
+  ClansModule,
+  CharactersModule,
+  DynamoModule,
+} from './modules';
 import { AuthGuard } from './common/guards';
-import { CharactersModule } from './modules/characters';
 import { CaslAbilityFactory } from './common/factories';
 import { CaslExceptionFilter } from './common/filters';
 
 @Module({
-  imports: [AuthModule, UsersModule, ClansModule, CharactersModule],
+  imports: [
+    DynamoModule,
+    AuthModule,
+    UsersModule,
+    ClansModule,
+    CharactersModule,
+  ],
   providers: [
     CaslAbilityFactory,
     {
@@ -22,5 +31,6 @@ import { CaslExceptionFilter } from './common/filters';
     },
   ],
   controllers: [],
+  // exports: [DynamoModule],
 })
 export class AppModule {}
