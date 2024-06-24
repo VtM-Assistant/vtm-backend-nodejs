@@ -1,6 +1,6 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { Injectable, Scope } from '@nestjs/common';
-import { Table } from '@typedorm/common';
+import { INDEX_TYPE, Table } from '@typedorm/common';
 import {
   EntityManager,
   ScanManager,
@@ -15,6 +15,13 @@ const myGlobalTable = new Table({
   name: 'vtmr-assistant',
   partitionKey: 'PK',
   sortKey: 'SK',
+  indexes: {
+    GSI1: {
+      type: INDEX_TYPE.GSI,
+      partitionKey: 'GSI1PK',
+      sortKey: 'GSI1SK',
+    },
+  },
 });
 
 @Injectable()
@@ -54,8 +61,19 @@ export class DynamoRepository {
   }
 
   async findUserByName(username: string): Promise<User | undefined> {
-    // TODO: Rework with GSI
-    const users = await this.scanManager.find(User);
-    return users.items.find((user) => user.username === username);
+    const users = await this.enitityManager.find(
+      User,
+      {
+        username,
+      },
+      {
+        queryIndex: 'GSI1',
+      },
+    );
+
+    if (users.items.length > 0) {
+      return users.items[0];
+    }
+    return undefined;
   }
 }

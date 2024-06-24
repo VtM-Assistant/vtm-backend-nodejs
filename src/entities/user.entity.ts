@@ -5,6 +5,7 @@ import {
   Attribute,
   AutoGenerateAttribute,
   Entity,
+  INDEX_TYPE,
 } from '@typedorm/common';
 
 import { RegisterDataDto } from 'src/modules/auth';
@@ -15,6 +16,13 @@ import { Role } from '.';
   primaryKey: {
     partitionKey: 'USER#{{id}}',
     sortKey: 'PROFILE',
+  },
+  indexes: {
+    GSI1: {
+      type: INDEX_TYPE.GSI,
+      partitionKey: 'USERNAME#{{username}}',
+      sortKey: 'SK',
+    },
   },
 })
 export class User {
