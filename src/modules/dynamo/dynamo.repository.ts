@@ -9,7 +9,7 @@ import {
   getScanManager,
 } from '@typedorm/core';
 import { DocumentClientV3 } from '@typedorm/document-client';
-import { User } from 'src/entities';
+import { Character, Clan, User } from 'src/entities';
 
 const myGlobalTable = new Table({
   name: 'vtmr-assistant',
@@ -38,13 +38,15 @@ export class DynamoRepository {
 
     createConnection({
       table: myGlobalTable,
-      entities: [User],
+      entities: [User, Clan, Character],
       documentClient,
     });
 
     this.enitityManager = getEntityManager();
     this.scanManager = getScanManager();
   }
+
+  /// Users
 
   async findAllUsers(): Promise<User[]> {
     const result = await this.scanManager.find(User);
@@ -75,5 +77,16 @@ export class DynamoRepository {
       return users.items[0];
     }
     return undefined;
+  }
+
+  /// Clans
+
+  async finalAllClans(): Promise<Clan[]> {
+    const results = this.scanManager.find(Clan);
+    return (await results).items;
+  }
+
+  async createClan(clan: Clan) {
+    return this.enitityManager.create(clan);
   }
 }

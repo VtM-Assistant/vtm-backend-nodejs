@@ -1,11 +1,19 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { Public } from 'src/common/decorators';
+import { ClansService } from './clans.service';
 
-@Public()
 @Controller('clans')
 export class ClansController {
+  constructor(private clansService: ClansService) {}
+
+  @Public()
   @Get()
-  getAll() {
-    return [];
+  async getAll() {
+    return await this.clansService.findAll();
+  }
+
+  @Post()
+  async create() {
+    await this.clansService.create('Brujah', 'The Best');
   }
 }

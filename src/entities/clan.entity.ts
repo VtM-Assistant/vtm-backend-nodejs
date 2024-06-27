@@ -6,13 +6,13 @@ import {
 } from '@typedorm/common';
 
 @Entity({
-  name: 'character',
+  name: 'clan',
   primaryKey: {
-    partitionKey: 'USER#{{userId}}',
-    sortKey: 'CHARACTER#{{id}}',
+    partitionKey: 'CLAN#{{id}}',
+    sortKey: 'DETAILS',
   },
 })
-export class Character {
+export class Clan {
   @AutoGenerateAttribute({
     strategy: AUTO_GENERATE_ATTRIBUTE_STRATEGY.UUID4,
   })
@@ -22,17 +22,7 @@ export class Character {
   name: string;
 
   @Attribute()
-  userId: string;
+  description: string;
 
-  @Attribute()
-  isPrivate: boolean = true;
-
-  @Attribute()
-  clanId: string;
-
-  //TODO: generation
-
-  //TODO: description
-
-  //TODO: character image
+  // TODO: Logo path
 }
