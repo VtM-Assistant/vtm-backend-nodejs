@@ -89,4 +89,12 @@ export class DynamoRepository {
   async createClan(clan: Clan) {
     return this.enitityManager.create(clan);
   }
+
+
+
+  /// Images
+
+  async createImage() {
+    
+  }
 }

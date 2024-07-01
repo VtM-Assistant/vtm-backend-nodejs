@@ -6,6 +6,8 @@ import {
   ClansModule,
   CharactersModule,
   DynamoModule,
+  ImagesModule,
+  FirebaseModule
 } from './modules';
 import { AuthGuard } from './common/guards';
 import { CaslAbilityFactory } from './common/factories';
@@ -18,6 +20,8 @@ import { CaslExceptionFilter } from './common/filters';
     UsersModule,
     ClansModule,
     CharactersModule,
+    FirebaseModule,
+    ImagesModule,
   ],
   providers: [
     CaslAbilityFactory,
