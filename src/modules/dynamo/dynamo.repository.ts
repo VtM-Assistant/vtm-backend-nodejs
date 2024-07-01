@@ -9,7 +9,8 @@ import {
   getScanManager,
 } from '@typedorm/core';
 import { DocumentClientV3 } from '@typedorm/document-client';
-import { Character, Clan, User } from 'src/entities';
+import { find } from 'rxjs';
+import { Character, Clan, Image, User } from 'src/entities';
 
 const myGlobalTable = new Table({
   name: 'vtmr-assistant',
@@ -38,7 +39,7 @@ export class DynamoRepository {
 
     createConnection({
       table: myGlobalTable,
-      entities: [User, Clan, Character],
+      entities: [User, Clan, Character, Image],
       documentClient,
     });
 
@@ -49,9 +50,7 @@ export class DynamoRepository {
   /// Users
 
   async findAllUsers(): Promise<User[]> {
-    const result = await this.scanManager.find(User);
-
-    return result.items;
+    return (await this.scanManager.find(User)).items;
   }
 
   async createUser(user: User): Promise<undefined> {
@@ -82,19 +81,20 @@ export class DynamoRepository {
   /// Clans
 
   async finalAllClans(): Promise<Clan[]> {
-    const results = this.scanManager.find(Clan);
-    return (await results).items;
+    return (await this.scanManager.find(Clan)).items;
   }
 
   async createClan(clan: Clan) {
     return this.enitityManager.create(clan);
   }
 
-
-
   /// Images
 
-  async createImage() {
-    
+  async createImage(image: Image) {
+    return this.enitityManager.create<Image>(image);
+  }
+
+  async findAllImages(): Promise<Image[]> {
+    return (await this.scanManager.find(Image)).items;
   }
 }

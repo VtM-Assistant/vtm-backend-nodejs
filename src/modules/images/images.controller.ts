@@ -1,5 +1,6 @@
 import {
   Controller,
+  Get,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -11,14 +12,21 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @Public()
 @Controller('images')
 export class ImagesController {
-  constructor(private readonly imageService: ImagesService) {}
+  constructor(private readonly imagesService: ImagesService) {}
+
+  @Get()
+  async getAll() {
+    return this.imagesService.getAll();
+  }
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadImage(@UploadedFile() file) {
-    const imageUrl = await this.imageService.uploadImage(file);
-    return {
-      image_url: imageUrl,
-    };
+    const image = await this.imagesService.uploadImage(file);
+    return image;
   }
+
+  // TODO: Delete image
+
+  // TODO: Update image
 }
