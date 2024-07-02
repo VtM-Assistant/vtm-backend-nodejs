@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Clan } from 'src/entities';
-import { DynamoRepository } from '../dynamo';
+import { ClansRepository } from '../repositories';
 
 @Injectable()
 export class ClansService {
-  constructor(private dynamoRepository: DynamoRepository) {}
+  constructor(private clansRepository: ClansRepository) {}
   async findAll(): Promise<Clan[]> {
-    return this.dynamoRepository.finalAllClans();
+    return this.clansRepository.finalAllClans();
   }
 
   async create(name: string, description: string) {
@@ -14,6 +14,6 @@ export class ClansService {
     clan.name = name;
     clan.description = description;
 
-    return this.dynamoRepository.createClan(clan);
+    return this.clansRepository.createClan(clan);
   }
 }

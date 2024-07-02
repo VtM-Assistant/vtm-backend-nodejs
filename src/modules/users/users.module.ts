@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { DynamoModule } from '../dynamo';
+import { RepositoriesModule } from '../repositories';
 
 @Module({
-  imports: [DynamoModule],
+  imports: [
+    /* RepositoriesModule */
+  ],
   providers: [UsersService],
   exports: [UsersService],
 })

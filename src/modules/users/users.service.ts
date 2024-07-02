@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { User } from 'src/entities';
-import { DynamoRepository } from '../dynamo';
+import { UsersRepository } from '../repositories';
 
 @Injectable()
 export class UsersService {
-  constructor(private dynamoRepository: DynamoRepository) {}
+  constructor(private usersRepository: UsersRepository) {}
 
   async findOne(username: string): Promise<User | undefined> {
-    const users = await this.dynamoRepository.findAllUsers();
+    const users = await this.usersRepository.findAllUsers();
 
     return users.find((user) => user.username === username);
   }
 
   async createOne(user: User) {
-    await this.dynamoRepository.createUser(user);
+    await this.usersRepository.createUser(user);
   }
 }

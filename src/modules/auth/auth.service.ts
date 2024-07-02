@@ -7,20 +7,20 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/entities';
 import { hash } from 'src/utils/crypto.functions';
-import { DynamoRepository } from '../dynamo';
+import { UsersRepository } from '../repositories';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    private dynamoRepository: DynamoRepository,
+    private usersRepository: UsersRepository,
   ) {}
 
   async signIn(
     username: string,
     password: string,
   ): Promise<{ access_token: string }> {
-    const user = await this.dynamoRepository.findUserByName(username);
+    const user = await this.usersRepository.findUserByName(username);
 
     if (user?.password !== hash(password)) {
       throw new UnauthorizedException();
@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   async signUp(username: string, password: string) {
-    const user = await this.dynamoRepository.findUserByName(username);
+    const user = await this.usersRepository.findUserByName(username);
 
     if (user) {
       throw new ConflictException('User with that name already exists');
@@ -47,7 +47,7 @@ export class AuthService {
 
     const newUser = User.create(username, password);
 
-    await this.dynamoRepository.createUser(newUser);
+    await this.usersRepository.createUser(newUser);
   }
 
   private isValidPassword(password: string): boolean | string {

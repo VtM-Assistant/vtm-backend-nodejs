@@ -7,15 +7,17 @@ import {
   CharactersModule,
   DynamoModule,
   ImagesModule,
-  FirebaseModule
+  FirebaseModule,
 } from './modules';
 import { AuthGuard } from './common/guards';
 import { CaslAbilityFactory } from './common/factories';
 import { CaslExceptionFilter } from './common/filters';
+import { RepositoriesModule } from './modules/repositories/repositories.module';
 
 @Module({
   imports: [
     DynamoModule,
+    RepositoriesModule,
     AuthModule,
     UsersModule,
     ClansModule,
@@ -35,6 +37,5 @@ import { CaslExceptionFilter } from './common/filters';
     },
   ],
   controllers: [],
-  // exports: [DynamoModule],
 })
 export class AppModule {}

@@ -42,6 +42,12 @@ export class User {
   })
   createdAt: number;
 
+  @AutoGenerateAttribute({
+    strategy: AUTO_GENERATE_ATTRIBUTE_STRATEGY.EPOCH_DATE,
+    autoUpdate: true,
+  })
+  updatedAt: number;
+
   @Attribute({
     isEnum: true,
   })

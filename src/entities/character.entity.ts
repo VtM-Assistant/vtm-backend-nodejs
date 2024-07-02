@@ -24,6 +24,17 @@ export class Character {
   @Attribute()
   userId: string;
 
+  @AutoGenerateAttribute({
+    strategy: AUTO_GENERATE_ATTRIBUTE_STRATEGY.EPOCH_DATE,
+  })
+  createdAt: number;
+
+  @AutoGenerateAttribute({
+    strategy: AUTO_GENERATE_ATTRIBUTE_STRATEGY.EPOCH_DATE,
+    autoUpdate: true,
+  })
+  updatedAt: number;
+
   @Attribute()
   isPrivate: boolean = true;
 

@@ -1,8 +1,7 @@
-import { Global, Module } from '@nestjs/common';
-import { DynamoRepository } from './dynamo.repository';
+import { Module } from '@nestjs/common';
+import { DynamoRepository } from './';
 
 @Module({
-  providers: [DynamoRepository],
   exports: [DynamoRepository],
 })
 export class DynamoModule {}

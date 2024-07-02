@@ -1,19 +1,22 @@
 import {
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   UploadedFile,
   UseInterceptors,
+  Request,
 } from '@nestjs/common';
 import { Public } from 'src/common/decorators';
 import { ImagesService } from './images.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-@Public()
 @Controller('images')
 export class ImagesController {
   constructor(private readonly imagesService: ImagesService) {}
 
+  @Public()
   @Get()
   async getAll() {
     return this.imagesService.getAll();
@@ -21,12 +24,15 @@ export class ImagesController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadImage(@UploadedFile() file) {
-    const image = await this.imagesService.uploadImage(file);
+  async upload(@UploadedFile() file, @Request() request) {
+    const image = await this.imagesService.uploadImage(file, request.user);
     return image;
   }
 
-  // TODO: Delete image
+  @Delete(':id')
+  async delete(@Param() params: any) {
+    await this.imagesService.delete(params.id);
+  }
 
   // TODO: Update image
 }

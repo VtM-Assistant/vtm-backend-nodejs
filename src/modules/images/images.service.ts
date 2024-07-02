@@ -1,17 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { FirebaseService } from '../firebase';
-import { DynamoRepository } from '../dynamo';
 import { v4 as uuidv4 } from 'uuid';
-import { Image } from 'src/entities';
+import { Image, User } from 'src/entities';
+import { ImagesRepository } from '../repositories';
 
 @Injectable()
 export class ImagesService {
   constructor(
     private readonly firebaseService: FirebaseService,
-    private readonly dynamoRepository: DynamoRepository,
+    private readonly imagesRepository: ImagesRepository,
   ) {}
 
-  async uploadImage(file: Express.Multer.File): Promise<Image> {
+  async uploadImage(file: Express.Multer.File, user: User): Promise<Image> {
+    // TODO: Add accesability
     const storage = this.firebaseService.getStorageInstance();
     const bucket = storage.bucket();
 
@@ -47,21 +48,32 @@ export class ImagesService {
     const image = new Image();
     image.id = id;
     image.imageUrl = imageUrl;
+    image.creatorId = user.id;
 
-    return this.dynamoRepository.createImage(image);
+    return this.imagesRepository.createImage(image);
   }
 
   async getAll() {
-    return this.dynamoRepository.findAllImages();
+    return this.imagesRepository.findAllImages();
   }
 
   async update(id: string) {
+    // TODO: Add accesability
     // TODO: Update image on storage
     // TODO: Update image in DB
   }
 
   async delete(id: string) {
+    const image = await this.imagesRepository.findImageById(id);
+
+    console.log(image);
+
+    return;
+
+    // TODO: Add accesability
+
     // TODO: Delete image from storage
-    // TODO: Delete image from DB
+
+    await this.imagesRepository.deleteImage(id);
   }
 }

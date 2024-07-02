@@ -3,32 +3,24 @@ import {
   Attribute,
   AutoGenerateAttribute,
   Entity,
-  INDEX_TYPE,
 } from '@typedorm/common';
 
 @Entity({
-  name: 'image',
+  name: 'session',
   primaryKey: {
-    partitionKey: 'IMAGE${{id}}',
-    sortKey: 'DETAILS',
-  },
-  indexes: {
-    GSI1: {
-      type: INDEX_TYPE.GSI,
-      partitionKey: 'CREATOR#{{creatorId}}',
-      sortKey: 'SK',
-    },
+    partitionKey: 'USER#{{ownerId}}',
+    sortKey: 'SESSION#{{id}}',
   },
 })
-export class Image {
-  @Attribute()
+export class GameSession {
+  @AutoGenerateAttribute({ strategy: AUTO_GENERATE_ATTRIBUTE_STRATEGY.UUID4 })
   id: string;
 
   @Attribute()
-  creatorId: string;
+  name: string;
 
   @Attribute()
-  imageUrl: string;
+  description?: string;
 
   @AutoGenerateAttribute({
     strategy: AUTO_GENERATE_ATTRIBUTE_STRATEGY.EPOCH_DATE,
@@ -40,4 +32,7 @@ export class Image {
     autoUpdate: true,
   })
   updatedAt: number;
+
+  @Attribute()
+  characters: string[];
 }
