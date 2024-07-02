@@ -11,6 +11,7 @@ import { ClansModule } from './modules/clans/clans.module';
 import { FirebaseModule } from './modules/firebase/firebase.module';
 import { ImagesModule } from './modules/images/images.module';
 import { UsersModule } from './modules/users/users.module';
+import { GameSessionsModule } from './modules/game-sessions/game-sessions.module';
 
 
 @Module({
@@ -23,6 +24,7 @@ import { UsersModule } from './modules/users/users.module';
     ClansModule,
     CharactersModule,
     ImagesModule,
+    GameSessionsModule,
   ],
   providers: [
     CaslAbilityFactory,

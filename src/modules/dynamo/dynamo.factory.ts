@@ -9,7 +9,15 @@ import {
   getScanManager,
 } from '@typedorm/core';
 import { DocumentClientV3 } from '@typedorm/document-client';
-import { Character, Clan, GameSession, Image, User } from 'src/entities';
+import {
+  Character,
+  CharacterDiscipline,
+  Clan,
+  Discipline,
+  GameSession,
+  Image,
+  User,
+} from 'src/entities';
 
 const myGlobalTable = new Table({
   name: 'vtmr-assistant',
@@ -38,7 +46,15 @@ export class DynamoFactory {
 
     createConnection({
       table: myGlobalTable,
-      entities: [User, GameSession, Clan, Character, Image],
+      entities: [
+        User,
+        GameSession,
+        Clan,
+        Character,
+        Image,
+        Discipline,
+        CharacterDiscipline,
+      ],
       documentClient,
     });
 

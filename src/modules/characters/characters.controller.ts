@@ -7,9 +7,8 @@ import {
   Post,
   Request,
 } from '@nestjs/common';
-import { CreateCharacterDto } from './dto/create-character-dto';
+import { CreateCharacterDto } from './dto/create-character.dto';
 import { CharactersService } from './characters.service';
-
 
 @Controller('characters')
 export class CharactersController {

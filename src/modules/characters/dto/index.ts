@@ -1,1 +1,1 @@
-export { CreateCharacterDto } from './create-character-dto';
+export { CreateCharacterDto } from './create-character.dto';
