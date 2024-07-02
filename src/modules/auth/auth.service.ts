@@ -7,7 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/entities';
 import { hash } from 'src/utils/crypto.functions';
-import { UsersRepository } from '../repositories';
+import { UsersRepository } from '../repositories/users.repository';
 
 @Injectable()
 export class AuthService {

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Clan } from 'src/entities';
-import { ClansRepository } from '../repositories';
+import { ClansRepository } from '../repositories/clans.repository';
 
 @Injectable()
 export class ClansService {

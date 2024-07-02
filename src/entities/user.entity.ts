@@ -8,7 +8,6 @@ import {
   INDEX_TYPE,
 } from '@typedorm/common';
 
-import { RegisterDataDto } from 'src/modules/auth';
 import { Role } from '.';
 
 @Entity({
@@ -56,10 +55,8 @@ export class User {
   static create(username: string, password: string): User {
     const result = new User();
 
-    // result.id = uuidv4();
     result.username = username;
     result.password = hash(password);
-    // result.createdAt = new Date();
     result.role = Role.User;
 
     return result;

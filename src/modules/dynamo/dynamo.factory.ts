@@ -25,7 +25,7 @@ const myGlobalTable = new Table({
 });
 
 @Injectable()
-export class DynamoRepository {
+export class DynamoFactory {
   readonly enitityManager: EntityManager;
   readonly scanManager: ScanManager;
 

@@ -17,6 +17,9 @@ export class GameSession {
   id: string;
 
   @Attribute()
+  ownerId: string;
+
+  @Attribute()
   name: string;
 
   @Attribute()

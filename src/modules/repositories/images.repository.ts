@@ -1,29 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { Image } from 'src/entities';
+import { DynamoFactory } from '../dynamo/dynamo.factory';
 
 @Injectable()
 export class ImagesRepository {
-  /// Images
+  constructor(private readonly dynamo: DynamoFactory) {}
 
   async createImage(image: Image): Promise<Image> {
-    throw new Error();
-    // return this.enitityManager.create<Image>(image);
+    return this.dynamo.enitityManager.create<Image>(image);
   }
 
   async findAllImages(): Promise<Image[]> {
-    throw new Error();
-    // return (await this.scanManager.find(Image)).items;
+    return (await this.dynamo.scanManager.find(Image)).items;
   }
 
   async findImageById(id: string): Promise<Image> {
-    throw new Error();
-
-    // return this.enitityManager.findOne(Image, { id });
+    return this.dynamo.enitityManager.findOne(Image, { id });
   }
 
   // TODO: Update image
 
   async deleteImage(id: string) {
-    // await this.enitityManager.delete(Image, { id });
+    await this.dynamo.enitityManager.delete(Image, { id });
   }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { FirebaseService } from '../firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { Image, User } from 'src/entities';
-import { ImagesRepository } from '../repositories';
+import { ImagesRepository } from '../repositories/images.repository';
+import { FirebaseService } from '../firebase/firebase.service';
 
 @Injectable()
 export class ImagesService {

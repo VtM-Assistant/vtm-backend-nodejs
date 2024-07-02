@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { Clan } from 'src/entities';
+import { DynamoFactory } from '../dynamo/dynamo.factory';
 
 @Injectable()
 export class ClansRepository {
-  /// Clans
+  constructor(private readonly dynamo: DynamoFactory) {}
 
   async finalAllClans(): Promise<Clan[]> {
-    throw new Error();
-    // return (await this.scanManager.find(Clan)).items;
+    return (await this.dynamo.scanManager.find(Clan)).items;
   }
 
   async createClan(clan: Clan) {
-    // return this.enitityManager.create(clan);
+    return this.dynamo.enitityManager.create(clan);
   }
 }

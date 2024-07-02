@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { DynamoRepository } from './';
+import { DynamoFactory } from './dynamo.factory';
 
 @Module({
-  exports: [DynamoRepository],
+  providers: [DynamoFactory],
+  exports: [DynamoFactory],
 })
 export class DynamoModule {}
