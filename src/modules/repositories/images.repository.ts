@@ -18,7 +18,20 @@ export class ImagesRepository {
     return this.dynamo.enitityManager.findOne(Image, { id });
   }
 
-  // TODO: Update image
+  async updateImage(
+    id: string,
+    imageUrl: string,
+    fileName: string,
+  ): Promise<Image> {
+    return this.dynamo.enitityManager.update<Image>(
+      Image,
+      { id },
+      {
+        imageUrl,
+        fileName,
+      },
+    );
+  }
 
   async deleteImage(id: string) {
     await this.dynamo.enitityManager.delete(Image, { id });

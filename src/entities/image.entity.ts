@@ -30,6 +30,9 @@ export class Image {
   @Attribute()
   imageUrl: string;
 
+  @Attribute()
+  fileName: string;
+
   @AutoGenerateAttribute({
     strategy: AUTO_GENERATE_ATTRIBUTE_STRATEGY.EPOCH_DATE,
   })

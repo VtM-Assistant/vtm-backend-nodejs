@@ -8,9 +8,6 @@ export class FirebaseService {
   private readonly storage: Storage;
 
   constructor(private readonly configService: ConfigService) {
-    // this.configService.get<string>('JWT_SECRET');
-    // const serviceAccount = require('../../../vtm-assistant-firebase-adminsdk-4d8xw-1007b84f41.json');
-
     admin.initializeApp({
       credential: admin.credential.cert({
         projectId: configService.get<string>('FIREBASE_PROJECT_ID'),
@@ -25,7 +22,40 @@ export class FirebaseService {
     this.storage = admin.storage();
   }
 
-  getStorageInstance(): Storage {
-    return this.storage;
+  async uploadFile(
+    fileName: string,
+    file: Express.Multer.File,
+  ): Promise<string> {
+    const bucket = this.storage.bucket();
+
+    const cloudFile = bucket.file(fileName);
+
+    const stream = cloudFile.createWriteStream({
+      metadata: {
+        contentType: file.mimetype,
+      },
+    });
+
+    return new Promise<string>((resolve, reject) => {
+      stream.on('error', (error) => {
+        reject(error);
+      });
+
+      stream.on('finish', async () => {
+        try {
+          await cloudFile.makePublic();
+          const imageUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+          resolve(imageUrl);
+        } catch (error) {
+          reject(error);
+        }
+      });
+
+      stream.end(file.buffer);
+    });
+  }
+
+  async deleteFile(fileName: string) {
+    return this.storage.bucket().file(fileName).delete();
   }
 }

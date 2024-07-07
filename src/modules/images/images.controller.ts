@@ -7,6 +7,7 @@ import {
   UploadedFile,
   UseInterceptors,
   Request,
+  Patch,
 } from '@nestjs/common';
 import { Public } from 'src/common/decorators';
 import { ImagesService } from './images.service';
@@ -34,5 +35,10 @@ export class ImagesController {
     await this.imagesService.delete(params.id);
   }
 
-  // TODO: Update image
+  @Patch(':id')
+  @UseInterceptors(FileInterceptor('file'))
+  async update(@UploadedFile() file, @Param() params: any, @Request() request) {
+    const image = await this.imagesService.update(params.id, file);
+    return image;
+  }
 }

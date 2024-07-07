@@ -13,42 +13,18 @@ export class ImagesService {
 
   async uploadImage(file: Express.Multer.File, user: User): Promise<Image> {
     // TODO: Add accesability
-    const storage = this.firebaseService.getStorageInstance();
-    const bucket = storage.bucket();
 
     const id = uuidv4();
 
     const fileName = `${id}_${file.originalname}`;
-    const fileUpload = bucket.file(fileName);
 
-    const stream = fileUpload.createWriteStream({
-      metadata: {
-        contentType: file.mimetype,
-      },
-    });
-
-    const imageUrl = await new Promise<string>((resolve, reject) => {
-      stream.on('error', (error) => {
-        reject(error);
-      });
-
-      stream.on('finish', async () => {
-        try {
-          await fileUpload.makePublic();
-          const imageUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
-          resolve(imageUrl);
-        } catch (error) {
-          reject(error);
-        }
-      });
-
-      stream.end(file.buffer);
-    });
+    const imageUrl = await this.firebaseService.uploadFile(fileName, file);
 
     const image = new Image();
     image.id = id;
     image.imageUrl = imageUrl;
     image.creatorId = user.id;
+    image.fileName = fileName;
 
     return this.imagesRepository.createImage(image);
   }
@@ -57,22 +33,26 @@ export class ImagesService {
     return this.imagesRepository.findAllImages();
   }
 
-  async update(id: string) {
+  async update(id: string, file: Express.Multer.File): Promise<Image> {
     // TODO: Add accesability
-    // TODO: Update image on storage
-    // TODO: Update image in DB
+
+    const image = await this.imagesRepository.findImageById(id);
+
+    await this.firebaseService.deleteFile(image.fileName);
+
+    const newFileName = `${id}_${file.originalname}`;
+
+    const imageUrl = await this.firebaseService.uploadFile(newFileName, file);
+
+    return this.imagesRepository.updateImage(id, imageUrl, newFileName);
   }
 
   async delete(id: string) {
-    const image = await this.imagesRepository.findImageById(id);
-
-    console.log(image);
-
-    return;
-
     // TODO: Add accesability
 
-    // TODO: Delete image from storage
+    const image = await this.imagesRepository.findImageById(id);
+
+    await this.firebaseService.deleteFile(image.fileName);
 
     await this.imagesRepository.deleteImage(id);
   }
