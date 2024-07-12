@@ -41,6 +41,9 @@ export class Character {
   @Attribute()
   clanId: string;
 
+  @Attribute()
+  disciplines: string[];
+
   //TODO: generation
 
   //TODO: description

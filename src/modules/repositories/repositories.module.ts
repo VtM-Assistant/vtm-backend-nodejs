@@ -4,6 +4,7 @@ import { ImagesRepository } from './images.repository';
 import { UsersRepository } from './users.repository';
 import { DynamoModule } from '../dynamo/dynamo.module';
 import { GameSessionsRepository } from './game-sessions.repository';
+import { CharactersRepository } from './characters.repository';
 
 @Module({
   imports: [DynamoModule],
@@ -12,12 +13,14 @@ import { GameSessionsRepository } from './game-sessions.repository';
     ClansRepository,
     ImagesRepository,
     GameSessionsRepository,
+    CharactersRepository,
   ],
   exports: [
     UsersRepository,
     ClansRepository,
     ImagesRepository,
     GameSessionsRepository,
+    CharactersRepository,
   ],
 })
 export class RepositoriesModule {}

@@ -50,6 +50,10 @@ export class AuthService {
     await this.usersRepository.createUser(newUser);
   }
 
+  async getUser(id: string) {
+    return this.usersRepository.findUserById(id);
+  }
+
   private isValidPassword(password: string): boolean | string {
     // TODO: Password validation. If not valid return message
 

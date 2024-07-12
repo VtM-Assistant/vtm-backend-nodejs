@@ -15,8 +15,8 @@ export class CharactersController {
   constructor(private charactersService: CharactersService) {}
 
   @Post()
-  create(@Body() createCharacterDto: CreateCharacterDto) {
-    this.charactersService.create(createCharacterDto);
+  create(@Body() createCharacterDto: CreateCharacterDto, @Request() request) {
+    return this.charactersService.create(createCharacterDto, request.user.id);
   }
 
   @Get(':id')
@@ -34,7 +34,7 @@ export class CharactersController {
   // @CheckPolicies((ability: AppAbility) =>
   //   ability.can(Action.Read, Character),
   // )
-  getAll() {
-    return this.charactersService.getAll();
+  getAll(@Request() request) {
+    return this.charactersService.getUserCharacters(request.user.id);
   }
 }

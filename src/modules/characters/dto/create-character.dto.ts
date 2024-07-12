@@ -1,3 +1,5 @@
 export class CreateCharacterDto {
-    name: string;
+  name: string;
+  clanId: string;
+  isPrivate: boolean = true;
 }
