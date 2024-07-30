@@ -14,6 +14,6 @@ export class ClansController {
 
   @Post()
   async create() {
-    await this.clansService.create('Brujah', 'The Best');
+    await this.clansService.create('Tremere', 'Bastards');
   }
 }

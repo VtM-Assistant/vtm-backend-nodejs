@@ -12,6 +12,7 @@ import { FirebaseModule } from './modules/firebase/firebase.module';
 import { ImagesModule } from './modules/images/images.module';
 import { UsersModule } from './modules/users/users.module';
 import { GameSessionsModule } from './modules/game-sessions/game-sessions.module';
+import { TestModule } from './modules/test/test.module';
 
 
 @Module({
@@ -25,6 +26,7 @@ import { GameSessionsModule } from './modules/game-sessions/game-sessions.module
     CharactersModule,
     ImagesModule,
     GameSessionsModule,
+    TestModule,
   ],
   providers: [
     CaslAbilityFactory,

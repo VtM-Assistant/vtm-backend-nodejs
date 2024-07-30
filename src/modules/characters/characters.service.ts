@@ -4,19 +4,20 @@ import { Character, User } from 'src/entities';
 import { ForbiddenError } from '@casl/ability';
 import { Action, CaslAbilityFactory } from 'src/common/factories';
 import { CharactersRepository } from '../repositories/characters.repository';
+import { ClansRepository } from '../repositories/clans.repository';
 
 @Injectable()
 export class CharactersService {
   constructor(
     private caslAbilityFactory: CaslAbilityFactory,
     private charactersRepository: CharactersRepository,
+    private clansRepository: ClansRepository,
   ) {}
 
   async create(
     createCharacterDto: CreateCharacterDto,
     userId: string,
   ): Promise<Character> {
-
     const character = new Character();
     character.name = createCharacterDto.name;
     character.disciplines = [];
@@ -39,6 +40,22 @@ export class CharactersService {
   }
 
   async getUserCharacters(userId: string): Promise<Character[]> {
+    const clansArr = await this.clansRepository.finalAllClans();
+    console.log(clansArr);
+
+    const clans = clansArr.reduce<{}>(
+      (accumulator, currentValue, index, array) => {
+        accumulator[currentValue.id] = currentValue;
+        return accumulator;
+      },
+      {},
+    );
+
+    const characters =
+      await this.charactersRepository.findAllUserCharacters(userId);
+
+    console.log(clans);
+
     return this.charactersRepository.findAllUserCharacters(userId);
   }
 
