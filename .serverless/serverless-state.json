@@ -174,7 +174,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/VtMRev-assistant/dev/1722279871197-2024-07-29T19:04:31.197Z/VtMRev-assistant.zip"
+                "S3Key": "serverless/VtMRev-assistant/dev/1724081739791-2024-08-19T15:35:39.791Z/VtMRev-assistant.zip"
               },
               "Handler": "dist/lambda.handler",
               "Runtime": "nodejs20.x",
@@ -192,14 +192,14 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersionuidxieyhD5tjwfunM3DAvUHxhoY6AYLDHlOpSdpA8o": {
+          "ApiLambdaVersionQW1XG40M458IutiUpmCEav0pDUWNQsC677Hk2O3OE4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "tiyZTNkTsfvwnhZe0UBVNyW4QNQuc3BwgJqL7YEJ+nU="
+              "CodeSha256": "kbP0JN+NMGo/WWSiNgwkrpEObdEQ7oLzsHghZ8el1lE="
             }
           },
           "ApiGatewayRestApi": {
@@ -324,7 +324,7 @@
               "ApiLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1722279868442": {
+          "ApiGatewayDeployment1724081737668": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -387,7 +387,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersionuidxieyhD5tjwfunM3DAvUHxhoY6AYLDHlOpSdpA8o"
+              "Ref": "ApiLambdaVersionQW1XG40M458IutiUpmCEav0pDUWNQsC677Hk2O3OE4"
             },
             "Export": {
               "Name": "sls-VtMRev-assistant-dev-ApiLambdaFunctionQualifiedArn"
@@ -534,7 +534,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "ApiLambdaVersionuidxieyhD5tjwfunM3DAvUHxhoY6AYLDHlOpSdpA8o"
+        "versionLogicalId": "ApiLambdaVersionQW1XG40M458IutiUpmCEav0pDUWNQsC677Hk2O3OE4"
       }
     },
     "configValidationMode": "warn",
@@ -558,7 +558,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/VtMRev-assistant/dev/code-artifacts",
         "artifact": "/home/cyrilbrujah/NodeJS/nest/vtm-assistant/.serverless/VtMRev-assistant.zip",
-        "artifactDirectoryName": "serverless/VtMRev-assistant/dev/1722279871197-2024-07-29T19:04:31.197Z"
+        "artifactDirectoryName": "serverless/VtMRev-assistant/dev/1724081739791-2024-08-19T15:35:39.791Z"
       }
     },
     "appId": null,
@@ -567,7 +567,7 @@
     "artifact": "/home/cyrilbrujah/NodeJS/nest/vtm-assistant/.serverless/VtMRev-assistant.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/VtMRev-assistant/dev/1722279871197-2024-07-29T19:04:31.197Z",
+    "artifactDirectoryName": "serverless/VtMRev-assistant/dev/1724081739791-2024-08-19T15:35:39.791Z",
     "artifact": "VtMRev-assistant.zip"
   }
 }

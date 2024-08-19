@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -20,16 +21,20 @@ export class AuthService {
     username: string,
     password: string,
   ): Promise<{ access_token: string }> {
-    const user = await this.usersRepository.findUserByName(username);
+    try {
+      const user = await this.usersRepository.findUserByName(username);
 
-    if (user?.password !== hash(password)) {
-      throw new UnauthorizedException();
+      if (user?.password !== hash(password)) {
+        throw new UnauthorizedException();
+      }
+      const payload = { id: user.id, username: user.username, role: user.role };
+
+      return {
+        access_token: await this.jwtService.signAsync(payload),
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(error);
     }
-    const payload = { id: user.id, username: user.username, role: user.role };
-
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
   }
 
   async signUp(username: string, password: string) {
